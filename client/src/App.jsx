@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import axios from "axios";
 import { UserContextProvider } from "./context/UserContext";
+import ProfilePage from "./pages/ProfilePage";
 
 // default base url -> helps shorten our url fetch requests
 axios.defaults.baseURL = "http://localhost:3000";
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<HomePage />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/register' element={<RegisterPage />}></Route>
+          <Route path='/account' element={<ProfilePage />}></Route>
         </Route>
       </Routes>
     </UserContextProvider>

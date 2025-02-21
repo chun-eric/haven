@@ -37,3 +37,4 @@ Day 2
 -  Complete /profile end with jwt.verify()
 -  update our useEffect GET request with the data returned and update the setUser setter function
 -  bug** when i refresh the name keeps disappearing why? Solution - in index.js i had in /profile ```res.json(name, email, _id)``` instead of ```res.json({name, email, _id})```
+-  Added Profile Page link if user logged in in header
