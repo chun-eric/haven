@@ -56,7 +56,7 @@ const Header = () => {
         </div>
 
         {/* User login register widget */}
-        <Link to={!!user ? '/account' : '/login'}>
+        <Link to={ user ? '/account' : '/login'}>
           <div className='flex items-center gap-3 px-4 py-2 border border-gray-300 rounded-full '>
             <svg
               xmlns='http://www.w3.org/2000/svg'

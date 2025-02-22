@@ -105,4 +105,10 @@ app.get("/profile",  (req, res) => {
   }
 })
 
+
+// Logout endpoint
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true) // sets the cookie to nothing and responds back with true json message
+})
+
 app.listen(3000);

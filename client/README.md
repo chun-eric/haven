@@ -38,3 +38,21 @@ Day 2
 -  update our useEffect GET request with the data returned and update the setUser setter function
 -  bug** when i refresh the name keeps disappearing why? Solution - in index.js i had in /profile ```res.json(name, email, _id)``` instead of ```res.json({name, email, _id})```
 -  Added Profile Page link if user logged in in header
+  
+
+Day 3
+- Add Login page link when clicking on header icon 
+- creating /account page called Profile Page.
+- adding ready state within UserContext for making sure user data is uploaded and ready before proceeding
+- using useParams within Profile page to add /account/bookings /account  /account/places
+- adding dynamic button classes called LinkClasses based on subpage chosen
+- adding profile subpage content
+- adding logout feature and button for profile subpage content
+- adding /logout endpoint in index.js in the backend
+- clearing cookie in the backend for our logout function
+- redirect back to home page after logout
+- bug** when i tried to logout it keeps redirecting me back to /login
+- solution: move logout function to useContext so all pages have access to it. 
+- added a very small setTimeout when navigationg back to homepage after logout
+- in the handleLogout function changed setUser and setReady inside here before executing the setTimeout 10ms later
+- the logout function takes 2ms to run its tasks so it give enought time for us to navigate back to "/"
