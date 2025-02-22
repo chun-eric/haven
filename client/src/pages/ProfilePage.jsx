@@ -5,7 +5,7 @@ import axios from "axios";
 
 const ProfilePage = () => {
 
-  const [redirect, setRedirect] = useState(null);
+  // const [redirect, setRedirect] = useState(null);
   const {user, ready, handleLogout} = useContext(UserContext)
   let {subpage} = useParams(); // using const we cant reassign
 
@@ -21,16 +21,16 @@ const ProfilePage = () => {
 
   // if user data is ready and user not logged redirect to login page
   // added !redirect or else when we logout it keeps going back to /login
-  if (ready && !user && !redirect) {
+  if (ready && !user ) {
     return <Navigate to={'/login'} />
   }
 
 
 
   // redirect to home page if user is logged out
-  if (redirect) {
-    return <Navigate to={redirect} />
-  }
+  // if (redirect) {
+  //   return <Navigate to={redirect} />
+  // }
 
   // primary button class for active Link
   function linkClasses(type = null) {

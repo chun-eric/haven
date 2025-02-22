@@ -13,30 +13,32 @@ export function UserContextProvider({ children }) {
 
 
 
-  // handle Logout function
-  async function handleLogout() {
-    try {
-      await axios.post("/logout");
-      setUser(null);
-      setReady(false);
-      setTimeout(() => navigate("/"), 10);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  }
-
-
     // initial mount checks if there is a user or not. If not makes a GET request to validate jwt cookie.
     useEffect( () => {
-    // remember user already has the cookie installed on the browser
+    // if there is no user get user data
     // we are just checking with the backend to verifiy its the same cookie
       if (!user) {
+      // check with backend if valid auth cookie exists
       axios.get("/profile").then(({data}) => {
-        setUser(data)
+        setUser(data) // valid cookie exists set user data
         setReady(true) // initial user data loading has completed
       })
       }
     }, [])
+
+ 
+       // handle Logout function
+       async function handleLogout() {
+        try {
+          await axios.post("/logout");
+          setUser(null);
+          setTimeout(() => navigate("/"),20);
+          
+        } catch (error) {
+          console.error("Logout error:", error);
+        }
+      }
+
 
   return (
     <UserContext.Provider value={{user, setUser, ready, handleLogout}} >
