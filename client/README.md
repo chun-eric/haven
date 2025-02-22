@@ -58,3 +58,10 @@ Day 3
 - the logout function takes 2ms to run its tasks so it give enought time for us to navigate back to "/"
 - bug** when i login then logout it works. I login again but then it states Loading.... that means the ready state is false. how can we fix? 
 - solution:  removed ``` setReady(false)``` on  handleLogout. This is waht is causing it be stuck on loading.... Is it big security risk no. Cookies are cleared from the /logout endpoint. We dont want it as a depednecy array in useEffect or it will cause infinite loop. The routes check for both ready and setUser is null. So it should be fine. 
+- Creating a new Place Schema
+- Created a new PlacesPage
+- Add new Route /account/:subpage/:actionOrId in App.jsx
+- created a new add place button when clicking on my accomodation. Added a link to /account/places/new
+- When add new place is clicked it links to /account/places/new
+- new Placesform on the /account/places/new
+- 
