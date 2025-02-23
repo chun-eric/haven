@@ -64,4 +64,8 @@ Day 3
 - created a new add place button when clicking on my accomodation. Added a link to /account/places/new
 - When add new place is clicked it links to /account/places/new
 - new Placesform on the /account/places/new
-- 
+- Adding lots of details to the PlacesForm add new
+
+Day 4
+- Fixed the perks design
+- Uploading image by link
