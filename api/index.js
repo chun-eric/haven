@@ -120,4 +120,21 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '').json(true) // sets the cookie to nothing and responds back with true json message
 })
 
+// image upload endpoint
+app.post('/upload-by-link', async (req, res) => {
+  // get url link from request
+  const { link } = req.body
+
+  const newName = 'photo_' + Date.now() + '.jpg' // Results in something like: "1708732841952.jpg"
+
+  // download image using imageDownloader. Gets the url link and the destination you want to save
+  await imageDownloader.image({
+    url: link,
+    dest: __dirname + '/uploads' + newName // full path + file name
+  })
+
+  // returns the relative path
+  res.json(newName)
+})
+
 app.listen(3000)

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Perks from '../components/Perks'
+import axios from 'axios'
 
 const PlacesPage = () => {
   const { action } = useParams()
@@ -17,7 +18,6 @@ const PlacesPage = () => {
   const [price, setPrice] = useState(100)
   const [redirect, setRedirect] = useState(false)
 
-  //
   function sectionHeader (text) {
     return <h2 className='pl-3 mt-2 text-xl font-semibold '>{text}</h2>
   }
@@ -34,6 +34,20 @@ const PlacesPage = () => {
         {sectionDescription(description)}
       </>
     )
+  }
+
+  //
+  /* 
+  https://a0.muscache.com/im/pictures/miso/Hosting-12351564/original/495c9cd3-0b04-451a-bd0f-bcf8b5e2c825.jpeg?im_w=1200&im_format=avif&im_origin=fuzzy
+
+*/
+  async function addPhotoByUrlLink (e) {
+    e.preventDefault()
+
+    // rename the data payload to fileName
+    const { data: fileName } = await axios.post('/upload-by-link', {
+      link: photosLink
+    })
   }
 
   return (
@@ -105,7 +119,10 @@ const PlacesPage = () => {
                 className='text-sm outline-none'
                 placeholder='Upload via a url link...'
               />
-              <button className='px-4 text-sm bg-gray-200 rounded-3xl'>
+              <button
+                onClick={addPhotoByUrlLink}
+                className='px-4 text-sm bg-gray-200 rounded-3xl'
+              >
                 Add&nbsp;photo
               </button>
             </div>

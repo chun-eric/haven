@@ -74,4 +74,17 @@ Day 4
 - separated the Perks from PlacesPage into its own separate component for cleaner code
 - the Perks need the selected and onChange values as well. We pass the perks and setPerks state values as props to the Perks component. selected=perks and onChange=setPerks
 - with each input in the PlacesPage we need to set the state value and setter function values for onChange. So, basically adding value and onChange attributes to each input and textArea
-- Uploading image by link
+- Uploading image by a url link. 
+  1. Add button onClick functionality. Add function here called addPhotoByUrlLink. This function will take a link.
+  2. The function will then upload the photo to our backend server uploads folder. This will hold all our uploaded files.
+  3. It will then return a link in our api server directory
+  4. Create new directory in api > uploads
+  5. We need an api endpoint that takes the link and adds it to the uploads folder
+  6. Create the api endpoint first to receive the uploaded file. /upload-by-link
+  7. image-downloader is a package that helps download images by url. Install it and add the url and dest keys
+  8. use a Date.now to make a unique file name
+  9. add it to the destination path
+  10. res.json("/uploads" + newName)
+- Adding a addPhotoByUrlLink to the add button in PlacesPage
+- make a async axios post request to upload-by-link
+- rename the data payload to fileName
