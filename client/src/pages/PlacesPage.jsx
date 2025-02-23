@@ -1,23 +1,40 @@
-import React from 'react'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { MdOutlineSoupKitchen } from 'react-icons/md'
-import { FaCar } from 'react-icons/fa6'
-import { IoMdTv } from 'react-icons/io'
-import { TbAirConditioning } from 'react-icons/tb'
-import { FaSwimmingPool } from 'react-icons/fa'
-import { LiaHotTubSolid } from 'react-icons/lia'
-import { LuWashingMachine } from 'react-icons/lu'
-import { BsPersonWorkspace } from 'react-icons/bs'
-import { MdPets } from 'react-icons/md'
-import { CgGym } from 'react-icons/cg'
-import { MdOutlineOutdoorGrill } from 'react-icons/md'
-import { MdOutlineDeck } from 'react-icons/md'
-import { GiCctvCamera } from 'react-icons/gi'
-import { MdOutlineCleaningServices } from 'react-icons/md'
+import Perks from '../components/Perks'
 
 const PlacesPage = () => {
   const { action } = useParams()
-  console.log(action)
+  const [title, setTitle] = useState('')
+  const [address, setAddress] = useState('')
+  const [addedPhotos, setAddedPhotos] = useState([])
+  const [photosLink, setPhotosLink] = useState([])
+  const [description, setDescription] = useState('')
+  const [perks, setPerks] = useState([])
+  const [extraInfo, setExtraInfo] = useState('')
+  const [checkIn, setCheckIn] = useState('')
+  const [checkout, setCheckout] = useState('')
+  const [maxGuests, setMaxGuests] = useState(1)
+  const [price, setPrice] = useState(100)
+  const [redirect, setRedirect] = useState(false)
+
+  //
+  function sectionHeader (text) {
+    return <h2 className='pl-3 mt-2 text-xl font-semibold '>{text}</h2>
+  }
+
+  //
+  function sectionDescription (text) {
+    return <p className='pl-3 mt-1 text-sm text-gray-500'>{text}</p>
+  }
+
+  function sectionLabels (header, description) {
+    return (
+      <>
+        {sectionHeader(header)}
+        {sectionDescription(description)}
+      </>
+    )
+  }
 
   return (
     <div>
@@ -49,36 +66,41 @@ const PlacesPage = () => {
       {action === 'new' && (
         <div className='flex flex-col justify-center w-full mx-auto mt-10 max-w-7xl'>
           <form action='' className='w-full max-w-3xl mx-auto'>
+            {/* Title */}
             <div className='mb-4'>
-              <h2 className='pl-3 mt-2 text-xl font-semibold '>Title</h2>
-              <p className='pl-3 mt-1 text-sm text-gray-500'>
-                The title should be short and catchy.
-              </p>
+              {sectionLabels('Title', 'The title should be short and catchy.')}
               <input
+                value={title}
+                onChange={e => setTitle(e.target.value)}
                 className='w-full px-4 py-2 mb-4 border border-gray-300 rounded-full outline-none'
                 type='text'
                 placeholder='title, e.g: Cozy Cabin in the Woods'
               />
             </div>
+
+            {/* Address */}
             <div className='mb-4'>
-              <h2 className='pl-3 mt-2 text-xl font-semibold '>Address</h2>
-              <p className='pl-3 mt-1 text-sm text-gray-500'>
-                The exact address to this place.
-              </p>
+              {sectionLabels('Address', 'The exact address to this place.')}
               <input
+                value={address}
+                onChange={e => setAddress(e.target.value)}
                 className='w-full px-4 py-2 mb-4 border border-gray-300 outline-none rounded-xl'
                 type='text'
                 placeholder='address, e.g: 3 Smith Street Vermont'
               />
             </div>
+
+            {/* Photos upload via link */}
             <div className='mb-2'>
-              <h2 className='pl-3 mt-2 text-xl font-semibold '>Photos</h2>
-              <p className='pl-3 mt-1 mb-1 text-sm text-gray-500'>
-                Show your amazing place. The more the better.
-              </p>
+              {sectionLabels(
+                'Photos',
+                'Show your amazing place. More is better.'
+              )}
             </div>
             <div className='flex gap-2 mb-2'>
               <input
+                value={photosLink}
+                onChange={e => setPhotosLink(e.target.value)}
                 type='text'
                 className='text-sm outline-none'
                 placeholder='Upload via a url link...'
@@ -87,6 +109,8 @@ const PlacesPage = () => {
                 Add&nbsp;photo
               </button>
             </div>
+
+            {/* Upload files */}
             <div className='grid grid-cols-3 mb-4 md:grid-cols-4 lg:grid-cols-6'>
               <button className='flex flex-col items-center gap-2 px-8 py-6 mt-2 ml-1 text-sm text-gray-600 bg-transparent border-2 border-gray-300 border-dotted black rounded-xl hover:bg-gray-100'>
                 <svg
@@ -106,170 +130,97 @@ const PlacesPage = () => {
                 Upload
               </button>
             </div>
+
+            {/* Description */}
             <div className='mb-4'>
-              <h2 className='pl-3 mt-2 text-xl font-semibold '>Description</h2>
-              <p className='pl-3 mt-1 mb-1 text-sm text-gray-500'>
-                Describe your place to make it easy for guests to understand.
-              </p>
-              <textarea className='outline-none ' />
+              {sectionLabels(
+                'Description',
+                'Describe your place to make it easy for guests to understand.'
+              )}
+              <textarea
+                className='outline-none '
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              />
             </div>
+
+            {/* Perks */}
             <div className='mb-4'>
-              <h2 className='pl-3 mt-2 text-xl font-semibold '>Perks</h2>
-              <p className='pl-3 mt-1 mb-1 text-sm text-gray-500'>
-                Select all the perks of your place.
-              </p>
+              {sectionLabels('Perks', 'Select all the perks of your place.')}
+
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                {/* 1st column */}
-                <div className='flex flex-col gap-2 p-3'>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='size-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z'
-                      />
-                    </svg>
-
-                    <span>Wifi</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <FaCar />
-                    <span>Free Parking</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <IoMdTv />
-                    <span>TV/Netflix</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <MdOutlineSoupKitchen />
-                    <span>Kitchen</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <TbAirConditioning />
-                    <span>Air conditioning</span>
-                  </label>
-                </div>
-
-                {/* 2nd column */}
-                <div className='flex flex-col gap-2 p-3'>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <FaSwimmingPool />
-                    <span>Pool</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <LiaHotTubSolid />
-                    <span>Hot Tub</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <LuWashingMachine />
-                    <span>Washer and Dryer</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <BsPersonWorkspace />
-                    <span>Workspace</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <MdPets />
-                    <span>Pet Friendly</span>
-                  </label>
-                </div>
-
-                {/* 3rd column */}
-                <div className='flex flex-col gap-2 p-3'>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <MdOutlineCleaningServices />
-                    <span>Cleaning</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <MdOutlineOutdoorGrill />
-                    <span>BBQ grill</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <CgGym />
-                    <span>Gym Access</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <MdOutlineDeck />
-                    <span>Outdoor deck</span>
-                  </label>
-                  <label
-                    htmlFor=''
-                    className='flex items-center gap-3 p-4 border cursor-pointer rounded-xl'
-                  >
-                    <input type='checkbox' />
-                    <GiCctvCamera />
-                    <span>Security Cameras</span>
-                  </label>
-                </div>
+                <Perks selected={perks} onChange={setPerks} />
               </div>
-              <div className='flex justify-center px-3 mx-auto mt-3 text-center'>
-                <button className=' lg:w-[40%] sm:w-[60%] py-2 text-lg text-white rounded-full bg-primary font-semibold w-full hover:bg-gray-200 transition-all duration-100 ease-in hover:text-black'>
-                  Save
-                </button>
+            </div>
+
+            {/* Extra Info */}
+            <div className='mb-5'>
+              {sectionLabels(' Additional Info', 'House rules, amenities etc')}
+              <textarea
+                className='outline-none'
+                value={extraInfo}
+                onChange={e => setExtraInfo(e.target.value)}
+              />
+            </div>
+
+            {/* 4 input section - Check In Check Out , max guests, price per night */}
+            <div className=''>
+              {sectionLabels(
+                'Check-in Check-out times',
+                'Add check in and out times. remember to have some time for cleaning between guests'
+              )}
+            </div>
+            <div className='grid grid-cols-2 gap-2 mt-3 md:grid-cols-4'>
+              <div className='mt-2 mb-4'>
+                <h3 className='pl-3 mt-2 text-base'>Check-In Time</h3>
+                <input
+                  type='text'
+                  value={checkIn}
+                  onChange={e => setCheckIn(e.target.value)}
+                  placeholder='14'
+                />
               </div>
+
+              <div className='mt-2 mb-4'>
+                <h3 className='pl-3 mt-2 text-bas'>Check-Out Time</h3>
+                <input
+                  type='text'
+                  value={checkout}
+                  onChange={e => setCheckout(e.target.value)}
+                  placeholder='10'
+                />
+              </div>
+
+              {/* Max Guests */}
+              <div className='mt-2 mb-4'>
+                <h3 className='pl-3 mt-2 text-bas'>Max number of Guests</h3>
+                <input
+                  type='number'
+                  value={maxGuests}
+                  onChange={e => setMaxGuests(e.target.value)}
+                  placeholder='8'
+                  className=''
+                />
+              </div>
+
+              {/* Price per night */}
+              <div className='mt-2 mb-4'>
+                <h3 className='pl-3 mt-2 text-base'>Price per night</h3>
+                <input
+                  type='number'
+                  className=''
+                  value={price}
+                  onChange={e => setPrice(e.target.value)}
+                  placeholder='e.g 159'
+                />
+              </div>
+            </div>
+
+            {/* Save button */}
+            <div className='flex justify-center px-3 mx-auto mt-4 text-center'>
+              <button className=' lg:w-[40%] sm:w-[60%] py-2 text-lg text-white rounded-full bg-primary font-semibold w-full hover:bg-gray-200 transition-all duration-100 ease-in hover:text-black'>
+                Save
+              </button>
             </div>
           </form>
         </div>

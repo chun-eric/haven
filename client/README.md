@@ -68,4 +68,10 @@ Day 3
 
 Day 4
 - Fixed the perks design
+- Adding the additional info and checkin checkout time max number of guests and price per night
+- Adding all the state for each input in the PlacesPage Form. There is around 10 - 11 states.
+- creating a header function and description function then combinign them together to create a header and description function to format and set section titles and description.
+- separated the Perks from PlacesPage into its own separate component for cleaner code
+- the Perks need the selected and onChange values as well. We pass the perks and setPerks state values as props to the Perks component. selected=perks and onChange=setPerks
+- with each input in the PlacesPage we need to set the state value and setter function values for onChange. So, basically adding value and onChange attributes to each input and textArea
 - Uploading image by link
