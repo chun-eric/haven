@@ -88,3 +88,23 @@ Day 4
 - Adding a addPhotoByUrlLink to the add button in PlacesPage
 - make a async axios post request to upload-by-link
 - rename the data payload to fileName
+
+
+Day 5
+- in addPhotoByUrLink function we update  the addedPhotos array using ```  setAddedPhotos(prev => {
+      return [...prev, fileName]
+    })```
+
+- now with this addedPhotos array we can render it before the Upload button using map method and a conditional .length > 1
+- The url link will be added just before the upload button. Thats good but we want the image to be displayed not a url link. How do we fix this?
+- We need to add middleware in index.js on the backend. ```app.use("<destination>", express(static(__dirname + "/uploads")))```
+- app.use() is a middleware on Express that runs for every request to our server. 1st parameter is the url path you we want the files to be accessible.
+- express.static() is Express middleware for serving static files +  actual folder path on our computer where the files are stored.
+- ourdomain.com/uploads/12324jpg for instance Express will automatically servce files from the folder. 
+- some syntax errors to fix on the url for static images
+- http://localhost:3000/uploads/<photo id>.jpg it will show up statically on the web page. It works!
+- So we can handle static images, now we need that image to show up in the addPhotos array.
+- Rendered the url link into an image and added it into the addedPhotos array using map to be rendered.
+- Functionality for adding url link and adding it as an image to our uploads photo then adding the photos to display in our addPhotos array done!
+- Next functionality: Add Upload button functionality so we can upload images directly from our computer. 
+- 

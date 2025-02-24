@@ -45,9 +45,19 @@ const PlacesPage = () => {
     e.preventDefault()
 
     // rename the data payload to fileName
+    // post request to /upload-by-link
     const { data: fileName } = await axios.post('/upload-by-link', {
       link: photosLink
     })
+
+    // add the fileName to the setAddedPhotos array
+    // this will add links to the addedPhotos array as well
+    setAddedPhotos(prev => {
+      return [...prev, fileName]
+    })
+
+    // reset　url link input field to empty
+    setPhotosLink('')
   }
 
   return (
@@ -128,8 +138,19 @@ const PlacesPage = () => {
             </div>
 
             {/* Upload files */}
-            <div className='grid grid-cols-3 mb-4 md:grid-cols-4 lg:grid-cols-6'>
-              <button className='flex flex-col items-center gap-2 px-8 py-6 mt-2 ml-1 text-sm text-gray-600 bg-transparent border-2 border-gray-300 border-dotted black rounded-xl hover:bg-gray-100'>
+            <div className='grid grid-cols-2 gap-3 pt-3 mb-6 md:grid-cols-3 lg:grid-cols-4'>
+              {addedPhotos.length > 0 &&
+                addedPhotos.map(link => (
+                  <div key={link}>
+                    <img
+                      src={`http://localhost:3000/uploads/${link}`}
+                      alt=''
+                      className='object-cover w-full h-32 rounded-2xl'
+                    />
+                  </div>
+                ))}
+
+              <button className='flex flex-col items-center justify-center w-full h-32 gap-2 text-sm text-gray-600 bg-transparent border-2 border-gray-300 border-dotted rounded-2xl hover:bg-gray-100'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'

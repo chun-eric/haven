@@ -17,6 +17,7 @@ const app = express()
 // middleware
 app.use(express.json())
 app.use(cookieParser())
+app.use('/uploads', express.static(__dirname + '/uploads')) // handles static files
 app.use(
   cors({
     credentials: true,
@@ -130,7 +131,7 @@ app.post('/upload-by-link', async (req, res) => {
   // download image using imageDownloader. Gets the url link and the destination you want to save
   await imageDownloader.image({
     url: link,
-    dest: __dirname + '/uploads' + newName // full path + file name
+    dest: __dirname + '/uploads/' + newName // full path + file name
   })
 
   // returns the relative path
