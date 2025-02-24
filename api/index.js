@@ -121,7 +121,7 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '').json(true) // sets the cookie to nothing and responds back with true json message
 })
 
-// image upload endpoint
+// image upload by url endpoint
 app.post('/upload-by-link', async (req, res) => {
   // get url link from request
   const { link } = req.body
@@ -136,6 +136,35 @@ app.post('/upload-by-link', async (req, res) => {
 
   // returns the relative path
   res.json(newName)
+})
+
+// 1. Multer middleware intercepts the request
+const photosMiddleware = multer({ dest: 'uploads/' })
+
+app.use('/upload', photosMiddleware.array('photos', 100), (req, res) => {
+  // 2. Files are saved to 'uploads/' directory by multer
+  // 3. req.files contains array of saved file information
+
+  const uploadedFiles = []
+  for (let i = 0; i < req.files.length; i++) {
+    const { path, originalname } = req.files[i] // get path and original name of the file
+
+    // 4. Process each file and extract the extension from originalname
+    const parts = originalname.split('.') // split by . to get the file extension
+    const ext = parts[parts.length - 1] // get the last part of the array which is the file extension
+
+    // 5. Rename the file to include extension
+    const newPath = path + '.' + ext // making the new path
+    fs.renameSync(path, newPath) // rename the original path to the new path
+
+    // 6. Clean path for storage
+    const cleanPath = newPath.replace(/^uploads[\/\\]/, '') // remove the 'uploads/' from the path
+    uploadedFiles.push(cleanPath) // push the clean path to the array
+  }
+  console.log('uploadedFiles', uploadedFiles)
+
+  // 7. Send processed filenames back to client
+  res.json(uploadedFiles)
 })
 
 app.listen(3000)

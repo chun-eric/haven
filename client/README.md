@@ -91,7 +91,7 @@ Day 4
 
 
 Day 5
-- in addPhotoByUrLink function we update  the addedPhotos array using ```  setAddedPhotos(prev => {
+- Functionality #1: in addPhotoByUrLink function we update  the addedPhotos array using ```  setAddedPhotos(prev => {
       return [...prev, fileName]
     })```
 
@@ -106,5 +106,26 @@ Day 5
 - So we can handle static images, now we need that image to show up in the addPhotos array.
 - Rendered the url link into an image and added it into the addedPhotos array using map to be rendered.
 - Functionality for adding url link and adding it as an image to our uploads photo then adding the photos to display in our addPhotos array done!
-- Next functionality: Add Upload button functionality so we can upload images directly from our computer. 
-- 
+
+- Next functionality: #2 Add Upload button functionality so we can upload images directly from our computer. 
+- First a nice little trick. Add an input type file inside the button but then change the button to a label tag. That means when you click on the upload label it has all the same functionality. 
+- input type file should be hidden in the className
+- now how do we go about adding this functionality? First add an onchange event to the upload label.  We want an onchange because it will change the addedPhotos array.
+- we use the ```e.target.files``` This is a FileList object that contains each file you uploaded. Each File object represents one file. Each File object has properties like name, size, type (MIME), lastModified etc..
+- we can loop through these using a for of loop. Add each file to data which is a FormData. Formdata is great for sending information to the server. 
+- we make a axios post request to /upload with our data then the response data we will rename it fileName exactly the same as our addPhotoByUrlLink function and update our addedPhotos array.
+- We also need to update our backend endpoint to allow this post request.
+- In order for us to upload files we can use a package called multer which handles file uploads in node express
+- create multer middleware and storage
+- tell multer its an array to handle multiple files with key of "photo" that can accept up to 100 files. .aaray simply means it can handle multiple files. The field key "photos" should match the input name "photos"
+- when we make post request to /upload it goes through multer middleware and creates a req.files array object. Inside each file in req.files it has lots of properties as well like fieldname, encdoing mimeType, filename path etc...
+- bug** when we try upload a file the Payload is empty the FileList is empty. hmmm...
+- change fileName to filename in our funaction in placesPage. We are getting binary and fieldname , original name in network preview and payload. So that means it is being uploaded. However the photo name is getting a long number with .avif file format
+- In network privew if you click on each file it has destination, fieldname, mimetype, path, originalname etc. Fixed multer destination to uploads/  for now
+- The filename should have an extension but it doesnt.
+- We need to grab the path from the req.files from /upload path. ```const { path } = req.files[i]```
+- In order to rename files on a server we need to use the fs (file system )package. It is already pre installed in express. Require(fs)
+-  we use fs.renameSync(path, newPath)
+-  another problem is now we only want to grab the name of the photo and not the /upload/ so we make a new clean path using regex ```const cleanPath = newPath.replace(/^uploads[\/\\]/, '')```
+- we push the clean path into in the uploadedFiles array. We return the uploadedFiles array.
+- Functionality to add photos upload by user completed. Recap -> /upload enpoint, uploadPhotos function created to upload multiple files from user computer. Multer to save files to uploads folder. req.files object when using multer details each file and its properties. We grabbed each file and extracted its path and filename. We grabbed the extension and make a new clean path. 

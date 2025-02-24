@@ -43,21 +43,50 @@ const PlacesPage = () => {
 */
   async function addPhotoByUrlLink (e) {
     e.preventDefault()
-
     // rename the data payload to fileName
     // post request to /upload-by-link
-    const { data: fileName } = await axios.post('/upload-by-link', {
+    const { data: filenames } = await axios.post('/upload-by-link', {
       link: photosLink
     })
-
     // add the fileName to the setAddedPhotos array
     // this will add links to the addedPhotos array as well
     setAddedPhotos(prev => {
-      return [...prev, fileName]
+      return [...prev, ...filenames]
     })
-
     // reset　url link input field to empty
     setPhotosLink('')
+  }
+
+  function uploadPhotos (e) {
+    e.preventDefault()
+    // 1. Select file from computer
+    const files = e.target.files // FileList object with a File object for each file e.g. FileList { 0: File, 1: File, length: 2 } this gets us access to the files
+
+    // 2. Create a FormData object to package files
+    const data = new FormData() // FormData is a class that allows us to send data to the server
+
+    // 3. Append each file to FormatData with key "photos". Matches with the key in the backend
+    for (let i = 0; i < files.length; i++) {
+      data.append('photos', files[i])
+      // Each append creates a key-value pair like: 'photos': Fil
+    }
+    console.log('data', data)
+
+    // 4. Send FormData to server via POST request axios
+    axios
+      .post('/upload', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }) // 5. Receive response from servver with processed filenames
+      .then(response => {
+        const { data: filenames } = response
+        console.log('filenames', filenames)
+        // 6. Update state with new filenames
+        setAddedPhotos(prev => {
+          return [...prev, ...filenames]
+        })
+      })
   }
 
   return (
@@ -150,7 +179,14 @@ const PlacesPage = () => {
                   </div>
                 ))}
 
-              <button className='flex flex-col items-center justify-center w-full h-32 gap-2 text-sm text-gray-600 bg-transparent border-2 border-gray-300 border-dotted rounded-2xl hover:bg-gray-100'>
+              <label className='flex flex-col items-center justify-center w-full h-32 gap-2 text-sm text-gray-600 bg-transparent border-2 border-gray-300 border-dotted cursor-pointer rounded-2xl hover:bg-gray-100'>
+                <input
+                  type='file'
+                  className='hidden'
+                  name='photos' // matches middleware key field in api endpoint
+                  multiple // allows user to upload multiple files
+                  onChange={uploadPhotos}
+                />
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -166,7 +202,7 @@ const PlacesPage = () => {
                   />
                 </svg>
                 Upload
-              </button>
+              </label>
             </div>
 
             {/* Description */}
