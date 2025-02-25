@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const bcryptSalt = bcrypt.genSaltSync(10)
 const jwt = require('jsonwebtoken')
 const User = require('./models/User.js')
+const Place = require('./models/Place.js')
 const cookieParser = require('cookie-parser')
 const imageDownloader = require('image-downloader')
 const multer = require('multer')
@@ -141,6 +142,7 @@ app.post('/upload-by-link', async (req, res) => {
 // 1. Multer middleware intercepts the request
 const photosMiddleware = multer({ dest: 'uploads/' })
 
+// image upload endpoint
 app.use('/upload', photosMiddleware.array('photos', 100), (req, res) => {
   // 2. Files are saved to 'uploads/' directory by multer
   // 3. req.files contains array of saved file information
@@ -162,9 +164,50 @@ app.use('/upload', photosMiddleware.array('photos', 100), (req, res) => {
     uploadedFiles.push(cleanPath) // push the clean path to the array
   }
   console.log('uploadedFiles', uploadedFiles)
-
   // 7. Send processed filenames back to client
   res.json(uploadedFiles)
 })
 
+// places endpoint to store all our places
+app.use('/places', (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+
+  const { token } = req.cookies // read cookie that browser sent
+
+  const {
+    title,
+    address,
+    addedPhotos,
+    description,
+    price,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests
+  } = req.body // destructing the request body data
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
+      if (err) throw err
+
+      const placeDoc = await Place.create({
+        owner: userData.id,
+        price,
+        title,
+        address,
+        photos: addedPhotos,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests
+      })
+      res.json(placeDoc)
+    })
+  }
+})
+
+// start server
 app.listen(3000)

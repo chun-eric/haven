@@ -7,7 +7,9 @@ import RegisterPage from './pages/RegisterPage'
 import axios from 'axios'
 import { UserContextProvider } from './context/UserContext'
 import ProfilePage from './pages/ProfilePage'
-import PlacesPage from './pages/PlacesPage'
+import PlacesPage from './pages/PlacesFormPage'
+import PlacesFormPage from './pages/PlacesFormPage'
+import BookingsPage from './pages/BookingsPage'
 
 // default base url -> helps shorten our url fetch requests
 axios.defaults.baseURL = 'http://localhost:3000'
@@ -18,14 +20,15 @@ function App () {
     <UserContextProvider>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<HomePage />}></Route>
-          <Route path='/login' element={<LoginPage />}></Route>
-          <Route path='/register' element={<RegisterPage />}></Route>
-          <Route path='/account/:subpage?' element={<ProfilePage />}></Route>
-          <Route
-            path='/account/:subpage/:action'
-            element={<ProfilePage />}
-          ></Route>
+          <Route index element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/account' element={<ProfilePage />} />
+          <Route path='/account/places' element={<PlacesPage />} />
+          <Route path='/account/places/new' element={<PlacesFormPage />} />
+          <Route path='/account/places/:id' element={<PlacesFormPage />} />
+          <Route path='/account/bookings' element={<BookingsPage />} />
+          <Route path='/account/bookings/:id' element={<BookingsPage />} />
         </Route>
       </Routes>
     </UserContextProvider>

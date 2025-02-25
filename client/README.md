@@ -141,3 +141,27 @@ Day 6
 - Finished the Perks feature of grabbing all of its selected perks.
 - Refactoring code base for the placesPage form. Extracting the url input to add photo and upload photo from user computer into its own component called PhotosUploader.jsx. This includes the two functions uploadPhotos() and addPhotoByUrlLink()
 - Completed the form functionality. Now we need to be able to send all its data to the server and database.
+- Add onSubmit function called savePlace on the form.
+- savePlace function will grab all the state values from the form and send a post request to /places. We grab all our form data inside placeData as an object. 
+- This means a user when sending this post request will be able to create a Place schema object.
+- We need to make the /places endpoint as well. Remember we already made the Place schema long time ago so import this for our server. 
+- But before that we should be able to add new places
+- bug** huge refactor a lot of components especially redirecting issues on Placespage.
+- Solution refactored all routes in app.jsx. Refactored and rename components to make it much easier and modular. 
+```
+     <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/account' element={<ProfilePage />} />
+          <Route path='/account/places' element={<PlacesPage />} />
+          <Route path='/account/places/new' element={<PlacesFormPage />} />
+          <Route path='/account/places/:id' element={<PlacesFormPage />} />
+          <Route path='/account/bookings' element={<BookingsPage />} />
+          <Route path='/account/bookings/:id' element={<BookingsPage />} />
+        </Route>
+      </Routes>
+```
+- Separate components for PlacesFormPage which handles routes /account/places/new & /account/places/:id
+- Sepearate componet for PlacesPage which stores all your listing
