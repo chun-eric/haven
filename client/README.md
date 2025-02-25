@@ -129,3 +129,15 @@ Day 5
 -  another problem is now we only want to grab the name of the photo and not the /upload/ so we make a new clean path using regex ```const cleanPath = newPath.replace(/^uploads[\/\\]/, '')```
 - we push the clean path into in the uploadedFiles array. We return the uploadedFiles array.
 - Functionality to add photos upload by user completed. Recap -> /upload enpoint, uploadPhotos function created to upload multiple files from user computer. Multer to save files to uploads folder. req.files object when using multer details each file and its properties. We grabbed each file and extracted its path and filename. We grabbed the extension and make a new clean path. 
+
+
+Day 6
+- getting the checkbox data from Perks component. How do we get the data and send it to our server?
+- First add name attribute and onChange handler for each perk input. 
+- Each input in the Perks component also have checked={selected.includes("<name></name>")}
+- The Perks components has two props, selected and onChange.
+- selected={perks} onChange={setPerks}. This creates an array to store selected perks. onChange is a function that handles any updates when checkboxes are clicked.
+- handleClick is function that handles any updates for checked perk boxes
+- Finished the Perks feature of grabbing all of its selected perks.
+- Refactoring code base for the placesPage form. Extracting the url input to add photo and upload photo from user computer into its own component called PhotosUploader.jsx. This includes the two functions uploadPhotos() and addPhotoByUrlLink()
+- Completed the form functionality. Now we need to be able to send all its data to the server and database.
