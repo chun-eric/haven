@@ -166,4 +166,7 @@ Day 6
 - Separate components for PlacesFormPage which handles routes /account/places/new & /account/places/:id 
 - Sepearate componet for PlacesPage which stores all your listing /account/places. It will only show the Add new place button
 - My bookins AccountNav will go to the /account/bookings or /account/bookings/:id
-- So refactor finish for pages and routes.
+- So refactor finish for pages and routes. Finished
+- Added some data for the places collection when adding a new place
+- Styling the PlacesPage.jsx to represent whats in the places collection from mongodb.
+- In order to do this we need to make a get request from /places

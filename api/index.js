@@ -139,11 +139,9 @@ app.post('/upload-by-link', async (req, res) => {
   res.json(newName)
 })
 
-// 1. Multer middleware intercepts the request
-const photosMiddleware = multer({ dest: 'uploads/' })
-
+const photosMiddleware = multer({ dest: 'uploads/' }) // 1. Multer middleware intercepts the request
 // image upload endpoint
-app.use('/upload', photosMiddleware.array('photos', 100), (req, res) => {
+app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
   // 2. Files are saved to 'uploads/' directory by multer
   // 3. req.files contains array of saved file information
 
@@ -169,11 +167,9 @@ app.use('/upload', photosMiddleware.array('photos', 100), (req, res) => {
 })
 
 // places endpoint to store all our places
-app.use('/places', (req, res) => {
+app.post('/places', (req, res) => {
   mongoose.connect(process.env.MONGO_URL) // connect to mongodb
-
   const { token } = req.cookies // read cookie that browser sent
-
   const {
     title,
     address,
@@ -207,6 +203,21 @@ app.use('/places', (req, res) => {
       res.json(placeDoc)
     })
   }
+})
+
+// get all places endpoint
+app.get('/places', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+
+  res.json(await Place.find())
+})
+
+// get single place endpoint
+app.get('/places/:id', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+  const { id } = req.params // get id from url
+  const placeDoc = await Place.findById(id)
+  res.json(placeDoc)
 })
 
 // start server
