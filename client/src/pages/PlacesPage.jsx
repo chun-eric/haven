@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import { Link, Params } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import AccountNav from '../components/AccountNav'
 
 // this will be on route /account/places
 export default function PlacesPage () {
   const { id } = useParams()
-  const [place, setPlace] = useState(null)
+  const [places, setPlaces] = useState(null)
 
   useEffect(() => {
     if (!id) {
@@ -15,27 +15,28 @@ export default function PlacesPage () {
   }, [id])
   return (
     <>
-      <div className='mt-4 bg-gray-100 -mx-8 px-8 pt-8'>
-        <h1 className='text-3xl'>Place Title</h1>
-        <p> Place Address</p>
-        <div className=''>Place Gallery</div>
-        <div className=''>
-          <div className=''>
-            <h2>Description</h2>
-          </div>
-          <div className=''>
-            Check in: 14:00 <br />
-            Check out: 10:00
-          </div>
-          <div className=''>
-            <div className=''>
-              <h2 className=''>Extra Info</h2>
-            </div>
-            <div className='mb-4 mt-2 text-sm text-gray-700 leading-5'>
-              Extra Info
-            </div>
-          </div>
-        </div>
+      <AccountNav />
+      <div className='mt-20 mx-auto'>
+        <Link
+          to='/account/places/new'
+          className='inline-flex items-center gap-2 px-4 py-2 text-white rounded-full bg-primary'
+        >
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='w-5 h-5'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M12 4.5v15m7.5-7.5h-15'
+            />
+          </svg>
+          Add new place
+        </Link>
       </div>
     </>
   )

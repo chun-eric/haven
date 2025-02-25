@@ -3,7 +3,9 @@ import { Navigate, Link, useParams } from 'react-router-dom'
 import Perks from '../components/Perks'
 import PhotosUploader from '../components/PhotosUploader'
 import axios from 'axios'
+import AccountNav from '../components/AccountNav'
 
+// routes for /account/places/new or /account/places/:id
 const PlacesFormPage = () => {
   const { id } = useParams()
   const [title, setTitle] = useState('')
@@ -75,31 +77,7 @@ const PlacesFormPage = () => {
 
   return (
     <div>
-      {/* {action !== 'new' && (
-        <div className='mt-20 text-center'>
-          <Link
-            to='/account/places/new'
-            className='inline-flex items-center gap-2 px-4 py-2 text-white rounded-full bg-primary'
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-5 h-5'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M12 4.5v15m7.5-7.5h-15'
-              />
-            </svg>
-            Add new place
-          </Link>
-        </div>
-      )} */}
-
+      <AccountNav />
       <div className='flex flex-col justify-center w-full mx-auto mt-10 max-w-7xl'>
         <form onSubmit={savePlace} className='w-full max-w-3xl mx-auto'>
           {/* Title */}

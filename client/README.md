@@ -163,5 +163,7 @@ Day 6
         </Route>
       </Routes>
 ```
-- Separate components for PlacesFormPage which handles routes /account/places/new & /account/places/:id
-- Sepearate componet for PlacesPage which stores all your listing
+- Separate components for PlacesFormPage which handles routes /account/places/new & /account/places/:id 
+- Sepearate componet for PlacesPage which stores all your listing /account/places. It will only show the Add new place button
+- My bookins AccountNav will go to the /account/bookings or /account/bookings/:id
+- So refactor finish for pages and routes.
