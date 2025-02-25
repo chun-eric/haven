@@ -41,7 +41,6 @@ const PlacesFormPage = () => {
 
   async function savePlace (e) {
     e.preventDefault() // prevent form from submitting
-
     const placeData = {
       title,
       address,
@@ -54,7 +53,7 @@ const PlacesFormPage = () => {
       maxGuests,
       price
     } // object to store place data
-
+    // if no id
     if (id) {
       // update place
       // put request to /places. Pass placeData as the data payload
@@ -62,6 +61,7 @@ const PlacesFormPage = () => {
         id,
         ...placeData
       })
+      setRedirect(true)
     }
     // create a new place
     else {
@@ -116,7 +116,7 @@ const PlacesFormPage = () => {
           {/* Description */}
           <div className='mb-4'>
             {sectionLabels(
-              'Description',
+              'About this place',
               'Describe your place to make it easy for guests to understand.'
             )}
             <textarea
@@ -128,7 +128,10 @@ const PlacesFormPage = () => {
 
           {/* Perks */}
           <div className='mb-4'>
-            {sectionLabels('Perks', 'Select all the perks of your place.')}
+            {sectionLabels(
+              'What this place offers',
+              'Select all the perks of your place.'
+            )}
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
               <Perks perks={perks} updatePerks={setPerks} />

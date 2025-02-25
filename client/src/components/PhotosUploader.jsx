@@ -11,7 +11,7 @@ const PhotosUploader = ({ addedPhotos, onChange }) => {
       link: photosLink
     })
     onChange(prev => {
-      return [...prev, ...filenames]
+      return [...prev, filenames]
     }) // rename the data payload to filenames. post request to /upload-by-link. Add filenames to the setAddedPhotos array
 
     setPhotosLink('') // reset　url link input field to empty
