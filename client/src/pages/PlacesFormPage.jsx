@@ -21,6 +21,26 @@ const PlacesFormPage = () => {
   const [price, setPrice] = useState(100)
   const [redirect, setRedirect] = useState(false)
 
+  // on initial mount will check if there is an id on the url if so it will send an get request then download the data and update all state values. If no id it will return.
+  useEffect(() => {
+    if (!id) {
+      return
+    }
+    axios.get('/places/' + id).then(response => {
+      const { data } = response
+      setTitle(data.title)
+      setAddress(data.address)
+      setAddedPhotos(data.photos)
+      setDescription(data.description)
+      setPerks(data.perks)
+      setExtraInfo(data.extraInfo)
+      setCheckIn(data.checkIn)
+      setCheckOut(data.checkOut)
+      setMaxGuests(data.maxGuests)
+      setPrice(data.price)
+    })
+  }, [id])
+
   function sectionHeader (text) {
     return <h2 className='pl-3 mt-2 text-xl font-semibold '>{text}</h2>
   }
@@ -39,8 +59,10 @@ const PlacesFormPage = () => {
     )
   }
 
+  // function to save place, if there is an id it will update the place
   async function savePlace (e) {
     e.preventDefault() // prevent form from submitting
+    // object to store place data
     const placeData = {
       title,
       address,
@@ -52,7 +74,8 @@ const PlacesFormPage = () => {
       checkOut,
       maxGuests,
       price
-    } // object to store place data
+    }
+
     // if no id
     if (id) {
       // update place
@@ -63,7 +86,7 @@ const PlacesFormPage = () => {
       })
       setRedirect(true)
     }
-    // create a new place
+    // save a new place
     else {
       await axios.post('/places', placeData)
       setRedirect(true)

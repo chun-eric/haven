@@ -18,10 +18,8 @@ const Perks = ({ perks, updatePerks }) => {
   // Function to handle checkbox click
   function handleClick (e) {
     console.log(e.target.name)
-
     // Get the name of the checkbox that was clicked
     const { checked, name } = e.target
-
     // If the checkbox is checked, add the name to the selected array
     if (checked) {
       updatePerks([...perks, name]) // updates the perks array in the parent container

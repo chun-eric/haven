@@ -170,3 +170,20 @@ Day 6
 - Added some data for the places collection when adding a new place
 - Styling the PlacesPage.jsx to represent whats in the places collection from mongodb.
 - In order to do this we need to make a get request from /places
+
+Day 7
+- setting up endpoints for /places (get request)
+- setting up endpoints for /places/:id (get request)
+- setting up endpoints for /places  (post request) for adding a place
+- updating PlacesFormPage to include useEffect with id dependency array on initial mount. If id exists run a get places:id request if not return.
+- Update Perks to to include checked attribute with perks.include("name of perk")
+- adding a savePlace function in PlacesFormPage that will either update an exisiting place (id) (put request) or create a new place save (post request)
+- added the endpoint for put request at /places (this was hard)
+- bug** the images in the places page image isnt showing up when we get it from our database. 
+- Solution: http://localhost:3000/uploads/ add this part to our image src. I am confused on this url path. 
+- Function: Able to delete any photo and select main cover photo
+- How do we do this? In our Place schema our photos: [String] we know this is an array of photos. What we want to do is when we click on a photo it should go to the first in the array. Maybe we can drag and drop instead. Where do we need to add the code? Somewhere in the PhotosUploader component.
+- Okay first things first lets add a delete button on each photo in the bottom right. 
+- I was confused where addedPhotos came from. Its passed in as props from parent component. addedPhotos is an array of photos added in state in PlacesFormPage.jsx
+- Finished deleting a photo from the addedPhotos array in PhotosUploader
+- 

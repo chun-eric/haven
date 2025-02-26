@@ -104,7 +104,6 @@ app.post('/login', async (req, res) => {
 app.get('/profile', (req, res) => {
   mongoose.connect(process.env.MONGO_URL) // need this to fetch users data
   const { token } = req.cookies // read cookie that browser sent
-
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
       if (err) throw err
@@ -126,37 +125,30 @@ app.post('/logout', (req, res) => {
 app.post('/upload-by-link', async (req, res) => {
   // get url link from request
   const { link } = req.body
-
   const newName = 'photo_' + Date.now() + '.jpg' // Results in something like: "1708732841952.jpg"
-
   // download image using imageDownloader. Gets the url link and the destination you want to save
   await imageDownloader.image({
     url: link,
     dest: __dirname + '/uploads/' + newName // full path + file name
   })
-
   // returns the relative path
   res.json(newName)
 })
 
+// image upload endpoint using multer middleware
 const photosMiddleware = multer({ dest: 'uploads/' }) // 1. Multer middleware intercepts the request
-// image upload endpoint
 app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
   // 2. Files are saved to 'uploads/' directory by multer
   // 3. req.files contains array of saved file information
-
   const uploadedFiles = []
   for (let i = 0; i < req.files.length; i++) {
     const { path, originalname } = req.files[i] // get path and original name of the file
-
     // 4. Process each file and extract the extension from originalname
     const parts = originalname.split('.') // split by . to get the file extension
     const ext = parts[parts.length - 1] // get the last part of the array which is the file extension
-
     // 5. Rename the file to include extension
     const newPath = path + '.' + ext // making the new path
     fs.renameSync(path, newPath) // rename the original path to the new path
-
     // 6. Clean path for storage
     const cleanPath = newPath.replace(/^uploads[\/\\]/, '') // remove the 'uploads/' from the path
     uploadedFiles.push(cleanPath) // push the clean path to the array
@@ -186,7 +178,6 @@ app.post('/places', (req, res) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
       if (err) throw err
-
       const placeDoc = await Place.create({
         owner: userData.id,
         price,
@@ -208,7 +199,6 @@ app.post('/places', (req, res) => {
 // get all places endpoint
 app.get('/places', async (req, res) => {
   mongoose.connect(process.env.MONGO_URL) // connect to mongodb
-
   res.json(await Place.find())
 })
 
@@ -218,6 +208,51 @@ app.get('/places/:id', async (req, res) => {
   const { id } = req.params // get id from url
   const placeDoc = await Place.findById(id)
   res.json(placeDoc)
+})
+
+// update place endpoint
+app.put('/places', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+  const { token } = req.cookies // read cookie that browser sent
+  const {
+    id,
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+    price
+  } = req.body // destructing the request body data
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
+      if (err) throw err
+      const placeDoc = await Place.findById(id) // find place by id
+      // check if user from the token id is the owner of placeDoc.owner the ObjectId in our database
+      if (userData.id === placeDoc.owner.toString()) {
+        // .set() mongoose method to update many properties at the same time
+        placeDoc.set({
+          title,
+          address,
+          photos: addedPhotos,
+          description,
+          perks,
+          extraInfo,
+          checkIn,
+          checkOut,
+          maxGuests,
+          price
+        })
+        // save changes to database
+        await placeDoc.save()
+        res.json('ok')
+      }
+    })
+  }
 })
 
 // start server
