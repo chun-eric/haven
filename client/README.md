@@ -186,4 +186,6 @@ Day 7
 - Okay first things first lets add a delete button on each photo in the bottom right. 
 - I was confused where addedPhotos came from. Its passed in as props from parent component. addedPhotos is an array of photos added in state in PlacesFormPage.jsx
 - Finished deleting a photo from the addedPhotos array in PhotosUploader
-- 
+- Change main selected photo: creating a function selectAsMainPhoto puts the photo you want at the beginning of the array and adds a filtered array after that. Very nice. 
+- What got me stumped for this function is if you dont put the event object and prevent it from submitting it will act very weird and redirect you somewhere. So make sure to e.preventDefault();
+- Selecting a new photo as main photo Feature complete.
