@@ -199,6 +199,7 @@ app.post('/places', (req, res) => {
 // get all places endpoint
 app.get('/places', async (req, res) => {
   mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+  // get all places
   res.json(await Place.find())
 })
 
@@ -251,6 +252,20 @@ app.put('/places', async (req, res) => {
         await placeDoc.save()
         res.json('ok')
       }
+    })
+  }
+})
+
+// get user places
+app.get('/user-places', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+  const { token } = req.cookies // read cookie that browser sent
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
+      if (err) throw err
+      const places = await Place.find({ owner: userData.id })
+      res.json(places)
     })
   }
 })

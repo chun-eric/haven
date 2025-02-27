@@ -10,7 +10,7 @@ export default function PlacesPage () {
 
   useEffect(() => {
     // get place by id. Make sure to add the get endpoint in our index.js
-    axios.get('/places').then(({ data }) => {
+    axios.get('/user-places').then(({ data }) => {
       setPlaces(data)
     })
   }, [])

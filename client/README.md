@@ -189,3 +189,61 @@ Day 7
 - Change main selected photo: creating a function selectAsMainPhoto puts the photo you want at the beginning of the array and adds a filtered array after that. Very nice. 
 - What got me stumped for this function is if you dont put the event object and prevent it from submitting it will act very weird and redirect you somewhere. So make sure to e.preventDefault();
 - Selecting a new photo as main photo Feature complete.
+- Feature: Add drag and drop functionality so i can drag any photos within addedPHotos to any position. Automatically udpates the start as well if its at index 0
+- *** Come back to the Drag and Drop functionality *** 
+
+
+- changed PlacesPage to get user accommodations on the /user-places endpoint which we need to create. Updated useEffect:
+```
+ useEffect(() => {
+    // get place by id. Make sure to add the get endpoint in our index.js
+    axios.get('/user-places').then(({ data }) => {
+      setPlaces(data)
+    })
+  }, [])
+```
+
+- Feature home page to show all listing and add search functionality. In order for us to get all our places on the Home page we need to use this endpoint. We will need to use useEffect here.
+```
+// get all places endpoint
+app.get('/places', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL) // connect to mongodb
+  // get all places
+  res.json(await Place.find())
+})
+```
+
+
+
+Day 8
+- Add image sliders on each image div
+- made a separate image sliders component
+- bug** had and event issue handling on goToSlide. I was immediately calling the goToSlide function instead of waiting for the event.
+- I forgot to map through each photos and display them 
+- the key was on the img div we must do flex-shrink-0. This means each image takes up 100% widht and heigh of its parent div. 
+- by mapping through the photos array we can arrange in a row. 
+- Need to limit the number of dots to 5. More complex than i thought. This is really really hard. 
+- creating a function called showDots
+- inside this function we create a start index variable. 
+- ```    let start = Math.max(0, Math.min(currentIndex, photos.length - MAX_DOTS))```
+- Lets run through an example.
+- currentIndex = 2
+photos.length - MAX_DOTS = 10 - 5 = 5
+Math.min(2, 5) = 2
+Math.max(0, 2) = 2
+Result: start = 2
+Dots shown: [2, 3, 4, 5, 6]
+- updated 
+- ``` function showDots () {
+    // If we have 5 or fewer photos, show all of them
+    if (photos.length <= MAX_DOTS) {
+      return [...Array(photos.length).keys()] // return an array of numbers from 0 to the length of photos
+    }
+
+    //  Create a sliding window of 5 dots, starting from the current index
+    let start = Math.max(0, Math.min(currentIndex, photos.length - MAX_DOTS))
+    return [...Array(MAX_DOTS)].map((_, i) => start + i) // return an array of numbers from start to start + MAX_DOTS
+  }
+
+  const visibleDots = showDots()
+  ```
