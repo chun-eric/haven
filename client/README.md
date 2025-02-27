@@ -247,3 +247,5 @@ Dots shown: [2, 3, 4, 5, 6]
 
   const visibleDots = showDots()
   ```
+  - Complete basic version of image slider
+  - Added city and country to the PlacesFormPage and updated Place model and index js

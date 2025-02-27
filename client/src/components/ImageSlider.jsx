@@ -106,12 +106,12 @@ const ImageSlider = ({ photos, title }) => {
           <>
             {!firstPhoto && (
               <div
-                className='absolute p-1 -translate-y-1/2 bg-white rounded-full cursor-pointer bg-opacity-80 left-2 top-1/2 hover:bg-opacity-80'
+                className='absolute p-1 -translate-y-1/2 bg-white rounded-full cursor-pointer left-2 top-1/2 hover:bg-gray-100'
                 onClick={goToPrevious}
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
-                  className='w-6 h-6'
+                  className='w-4 h-4'
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
@@ -127,12 +127,12 @@ const ImageSlider = ({ photos, title }) => {
             )}
 
             <div
-              className='absolute p-1 -translate-y-1/2 bg-white rounded-full cursor-pointer bg-opacity-80 right-2 top-1/2 hover:bg-opacity-80'
+              className='absolute p-1 -translate-y-1/2 bg-white rounded-full cursor-pointer right-2 top-1/2 hover:bg-gray-100'
               onClick={goToNext}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                className='w-6 h-6'
+                className='w-4 h-4'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'

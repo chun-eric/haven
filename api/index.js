@@ -165,6 +165,8 @@ app.post('/places', (req, res) => {
   const {
     title,
     address,
+    city,
+    country,
     addedPhotos,
     description,
     price,
@@ -182,6 +184,8 @@ app.post('/places', (req, res) => {
         owner: userData.id,
         price,
         title,
+        city,
+        country,
         address,
         photos: addedPhotos,
         description,
@@ -218,6 +222,8 @@ app.put('/places', async (req, res) => {
   const {
     id,
     title,
+    city,
+    country,
     address,
     addedPhotos,
     description,
@@ -239,6 +245,8 @@ app.put('/places', async (req, res) => {
         placeDoc.set({
           title,
           address,
+          city,
+          country,
           photos: addedPhotos,
           description,
           perks,

@@ -9,6 +9,8 @@ import AccountNav from '../components/AccountNav'
 const PlacesFormPage = () => {
   const { id } = useParams()
   const [title, setTitle] = useState('')
+  const [city, setCity] = useState('')
+  const [country, setCountry] = useState('')
   const [address, setAddress] = useState('')
   const [addedPhotos, setAddedPhotos] = useState([])
   const [photosLink, setPhotosLink] = useState([])
@@ -29,6 +31,8 @@ const PlacesFormPage = () => {
     axios.get('/places/' + id).then(response => {
       const { data } = response
       setTitle(data.title)
+      setCity(data.city)
+      setCountry(data.country)
       setAddress(data.address)
       setAddedPhotos(data.photos)
       setDescription(data.description)
@@ -65,6 +69,8 @@ const PlacesFormPage = () => {
     // object to store place data
     const placeData = {
       title,
+      city,
+      country,
       address,
       addedPhotos,
       description,
@@ -113,6 +119,30 @@ const PlacesFormPage = () => {
               type='text'
               placeholder='title, e.g: Cozy Cabin in the Woods'
             />
+          </div>
+          {/* Suburb and City */}
+
+          <div className='flex w-full gap-2 mb-4'>
+            <div className='w-full sm:w-1/2'>
+              {sectionLabels('City', 'The city of this place.')}
+              <input
+                value={city}
+                onChange={e => setCity(e.target.value)}
+                className='w-full px-4 py-2 mb-4 border border-gray-300 outline-none rounded-xl'
+                type='text'
+                placeholder='City, e.g: Tokyo'
+              />
+            </div>
+            <div className='w-full sm:w-1/2'>
+              {sectionLabels('Country', 'The country of this place.')}
+              <input
+                value={country}
+                onChange={e => setCountry(e.target.value)}
+                className='w-full px-4 py-2 mb-4 border border-gray-300 outline-none rounded-xl'
+                type='text'
+                placeholder='Country, e.g: Japan'
+              />
+            </div>
           </div>
 
           {/* Address */}
@@ -178,9 +208,9 @@ const PlacesFormPage = () => {
               'Add check in and out times. remember to have some time for cleaning between guests'
             )}
           </div>
-          <div className='grid grid-cols-2 gap-2 mt-3 md:grid-cols-4'>
+          <div className='grid gap-2 mt-3 sm:grid-cols-2 md:grid-cols-4'>
             <div className='mt-2 mb-4'>
-              <h3 className='pl-3 mt-2 text-base'>Check-In Time</h3>
+              <h3 className='pl-3 mt-2 text-md'>Check-In Time</h3>
               <input
                 type='text'
                 value={checkIn}
@@ -189,8 +219,8 @@ const PlacesFormPage = () => {
               />
             </div>
 
-            <div className='mt-2 mb-4'>
-              <h3 className='pl-3 mt-2 text-bas'>Check-Out Time</h3>
+            <div className='mt-2 mb-2 '>
+              <h3 className='pl-3 mt-2 text-md'>Check-Out Time</h3>
               <input
                 type='text'
                 value={checkOut}
@@ -201,7 +231,7 @@ const PlacesFormPage = () => {
 
             {/* Max Guests */}
             <div className='mt-2 mb-4'>
-              <h3 className='pl-3 mt-2 text-bas'>Max number of Guests</h3>
+              <h3 className='pl-3 mt-2 text-md'>Max Guests</h3>
               <input
                 type='number'
                 value={maxGuests}
@@ -213,7 +243,7 @@ const PlacesFormPage = () => {
 
             {/* Price per night */}
             <div className='mt-2 mb-4'>
-              <h3 className='pl-3 mt-2 text-base'>Price per night</h3>
+              <h3 className='pl-3 mt-2 text-md'>Price per night</h3>
               <input
                 type='number'
                 className=''
@@ -225,8 +255,8 @@ const PlacesFormPage = () => {
           </div>
 
           {/* Save button */}
-          <div className='flex justify-center px-3 mx-auto mt-4 text-center'>
-            <button className=' lg:w-[40%] sm:w-[60%] py-2 text-lg text-white rounded-full bg-primary font-semibold w-full hover:bg-gray-200 transition-all duration-100 ease-in hover:text-black'>
+          <div className='flex justify-center mx-auto mt-4 text-center sm:px-3'>
+            <button className=' lg:w-[40%] sm:w-[60%]  py-2 text-lg text-white rounded-full bg-primary font-semibold w-full hover:bg-gray-200 transition-all duration-100 ease-in hover:text-black'>
               Save
             </button>
           </div>

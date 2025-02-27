@@ -9,12 +9,12 @@ const HomePage = () => {
 
   useEffect(() => {
     axios.get('/places').then(response => {
-      setPlaces(response.data)
+      setPlaces([...response.data, ...response.data, ...response.data])
     })
   }, [])
 
   return (
-    <div className='grid grid-cols-2 gap-6 px-4 mx-auto mt-8 md:grid-cols-4'>
+    <div className='grid grid-cols-2 gap-6 px-4 mx-auto mt-8 md:grid-cols-4 gap-y-8'>
       {places.length > 0 &&
         places.map(place => (
           <Link
@@ -27,12 +27,12 @@ const HomePage = () => {
                 <ImageSlider photos={place.photos} title={place.title} />
               )}
             </div>
-            <h2 className='mt-3 font-semibold text-gray-800 truncate text-ellipsis'>
-              {place.address}
+            <h2 className='mt-3 font-semibold text-gray-900 truncate text-ellipsis'>
+              {place.city}, {place.country}
             </h2>
-            <h2 className='mt-1 text-gray-500 truncate '>
+            <h3 className='mt-1 text-gray-500 truncate '>
               {place.description}
-            </h2>
+            </h3>
             <div className='mt-1'>
               <span className='font-semibold'>${place.price}</span>
             </div>
