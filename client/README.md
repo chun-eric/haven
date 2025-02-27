@@ -249,3 +249,6 @@ Dots shown: [2, 3, 4, 5, 6]
   ```
   - Complete basic version of image slider
   - Added city and country to the PlacesFormPage and updated Place model and index js
+  - price isnt showing up in our places collection in mongodb. Solution** Just needed to refresh mongodb
+  - Added 10 more places
+  - 

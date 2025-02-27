@@ -9,12 +9,12 @@ const HomePage = () => {
 
   useEffect(() => {
     axios.get('/places').then(response => {
-      setPlaces([...response.data, ...response.data, ...response.data])
+      setPlaces(response.data)
     })
   }, [])
 
   return (
-    <div className='grid grid-cols-2 gap-6 px-4 mx-auto mt-8 md:grid-cols-4 gap-y-8'>
+    <div className='grid grid-cols-2 gap-6 px-8 mx-auto mt-8 md:grid-cols-4 gap-y-8 max-w-7xl'>
       {places.length > 0 &&
         places.map(place => (
           <Link
@@ -34,7 +34,7 @@ const HomePage = () => {
               {place.description}
             </h3>
             <div className='mt-1'>
-              <span className='font-semibold'>${place.price}</span>
+              <span className='font-semibold'>${place.price} per night</span>
             </div>
           </Link>
         ))}

@@ -1,33 +1,30 @@
-import { useContext} from "react";
-import { Link } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-
+import { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 const Header = () => {
-  const { user} = useContext(UserContext)
-  
+  const { user } = useContext(UserContext)
+
   return (
-    <div>
-      <header className='flex items-center justify-between p-6'>
+    <div className='px-6 border-b'>
+      <header className='flex items-center justify-between w-full p-6 mx-auto max-w-7xl'>
         {/* Logo */}
         <Link to='/' className='flex items-center gap-1'>
-  
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-8 h-8 -rotate-90 '
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'
-              />
-            </svg>
-            <span className='text-xl font-bold'>Haven</span>
-
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='w-8 h-8 -rotate-90 '
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'
+            />
+          </svg>
+          <span className='text-xl font-bold'>Haven</span>
         </Link>
 
         {/* Search widget */}
@@ -56,8 +53,8 @@ const Header = () => {
         </div>
 
         {/* User login register widget */}
-        <Link to={ user ? '/account' : '/login'}>
-          <div className='flex items-center gap-3 px-4 py-2 border border-gray-300 rounded-full '>
+        <Link to={user ? '/account' : '/login'}>
+          <div className='flex items-center gap-3 px-4 py-2 ease-in-out border border-gray-300 rounded-full shadow-sm hover:shadow-gray-300 hover:duration-200 hover:transition hover:shadow-md'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -86,17 +83,16 @@ const Header = () => {
                 />
               </svg>
             </div>
-             {
-              !!user && (
-                <div className="pr-2 font-semibold text-gray-600 capitalize">
+            {!!user && (
+              <div className='pr-2 font-semibold text-gray-600 capitalize'>
                 {user.name}
-                </div>
-             )}
+              </div>
+            )}
           </div>
         </Link>
       </header>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
