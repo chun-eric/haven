@@ -8,6 +8,7 @@ import PlaceGallery from '../components/PlaceGallery'
 export default function PlacePage () {
   const { id } = useParams()
   const [place, setPlace] = useState(null)
+  const [showExtraInfo, setShowExtraInfo] = useState(false)
 
   // useEffect to grab the place by id
   useEffect(() => {
@@ -24,30 +25,102 @@ export default function PlacePage () {
 
   return (
     <>
-      <div className='px-8  mt-4 bg-[#ffffff] max-w-6xl mx-auto'>
+      <div className='w-full px-4 sm:px-8 mt-4 bg-[#ffffff] max-w-6xl mx-auto relative'>
         <div className='px-8 pt-8 mt-4 -mx-8 bg-white-100 '>
-          <h1 className='text-3xl'>{place.title}</h1>
+          <h1 className='mb-2 text-3xl'>{place.title}</h1>
           <AddressLink>{place.address}</AddressLink>
           <PlaceGallery place={place} />
           <div className=''>
-            <div className=''>
-              <h2>{place.description}</h2>
+            <div className='my-6'>
+              <h2 className='text-gray-800 text-md leading'>
+                {place.description}
+              </h2>
             </div>
             <div className=''>
-              Check in: {place.checkIn} <br />
-              Check out: {place.checkOut}
+              <h3 className='pt-4 mb-4 font-bold leading-5 text-gray-700 text-md '>
+                House Rules
+              </h3>
+              Check in: <span className='font-semibold'> {place.checkIn} </span>
+              <br />
+              Check out:{' '}
+              <span className='font-semibold'>{place.checkOut} </span>
+              <br /> Max number of guests:{' '}
+              <span className='font-semibold'>{place.maxGuests}</span>
             </div>
-            <div className=''>
-              <div className=''>
-                <h2 className=''>{place.extraInfo}</h2>
-              </div>
-              <div className='mt-2 mb-4 text-sm leading-5 text-gray-700'>
+            <div className='my-4 mb-4 text-gray-700 leadind-5 text-md'>
+              <div className='pt-4 mb-4 font-bold leading-5 text-gray-700 text-md'>
                 Extra Info
+              </div>
+              <div className='flex flex-col'>
+                <span className='truncate text-ellipsis'>
+                  {place.extraInfo}
+                </span>
+                <button
+                  className='flex items-center gap-2 mt-2 font-semibold text-left underline text-slate-800 '
+                  onClick={() => setShowExtraInfo(true)}
+                >
+                  Show more
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='w-4 h-4 mt-1 '
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='m8.25 4.5 7.5 7.5-7.5 7.5'
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Show modal  */}
+      {showExtraInfo && (
+        <div
+          className='fixed inset-0 z-50 flex items-start justify-center bg-black pt-36 bg-opacity-60 sm:pt-36 md:pt-40'
+          onClick={() => setShowExtraInfo(false)}
+        >
+          <div
+            className='relative w-full p-10 bg-white max-w-4xl rounded-3xl max-h-[90vh] overflow-y-auto mx-6'
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className='absolute p-2 text-gray-500 top-4 right-4 hover:text-gray-700'
+              onClick={() => setShowExtraInfo(false)}
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6 18L18 6M6 6l12 12'
+                />
+              </svg>
+            </button>
+            <div className='my-4'>
+              <h1 className='text-2xl font-bold text-[#222222] mb-8'>
+                About this space
+              </h1>
+              <div className='mt-4 text-lg leading-relaxed text-gray-800'>
+                {place.extraInfo}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

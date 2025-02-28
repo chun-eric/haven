@@ -261,3 +261,5 @@ Day 9
 - In this component we want to seaprate a new PlaceGallery component, Booking widget component and Address Link component. 
 - Address Link component complete. Passing data through children and styling through that way. Adding classNames on the component
 - Doing the Gallery component layout - much harder than i thought. The confusiong was setting aspect square on each smaller picture and setting explicit heights on bother left and right containers.
+- Show more modal box complete
+- 
