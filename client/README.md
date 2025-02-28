@@ -250,5 +250,14 @@ Dots shown: [2, 3, 4, 5, 6]
   - Complete basic version of image slider
   - Added city and country to the PlacesFormPage and updated Place model and index js
   - price isnt showing up in our places collection in mongodb. Solution** Just needed to refresh mongodb
-  - Added 10 more places
-  - 
+  - Added 4 more places. For now i just repeated the ...response.data * 2. I will update it manually later
+  - Completed footer except the pages for each link
+
+
+
+Day 9
+- Single Place plage aka PlacePage. We need to grab the id and fetch a get request to /places/id
+- We want the initially mounted so useEffect would be a great choice. 
+- In this component we want to seaprate a new PlaceGallery component, Booking widget component and Address Link component. 
+- Address Link component complete. Passing data through children and styling through that way. Adding classNames on the component
+- Doing the Gallery component layout - much harder than i thought. The confusiong was setting aspect square on each smaller picture and setting explicit heights on bother left and right containers.

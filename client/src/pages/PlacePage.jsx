@@ -1,27 +1,47 @@
 import AccountNav from '../components/AccountNav'
+import { Link, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import AddressLink from '../components/AddressLink'
+import PlaceGallery from '../components/PlaceGallery'
 
 export default function PlacePage () {
+  const { id } = useParams()
+  const [place, setPlace] = useState(null)
+
+  // useEffect to grab the place by id
+  useEffect(() => {
+    if (!id) {
+      return
+    }
+    axios.get(`/places/${id}`).then(response => {
+      setPlace(response.data)
+    })
+  }, [id])
+
+  // if there is no place, return null
+  if (!place) return ''
+
   return (
     <>
-      <div className=''>
-        <AccountNav />
-        <div className='mt-4 bg-gray-100 -mx-8 px-8 pt-8'>
-          <h1 className='text-3xl'>Place Title</h1>
-          <p> Place Address</p>
-          <div className=''>Place Gallery</div>
+      <div className='px-8  mt-4 bg-[#ffffff] max-w-6xl mx-auto'>
+        <div className='px-8 pt-8 mt-4 -mx-8 bg-white-100 '>
+          <h1 className='text-3xl'>{place.title}</h1>
+          <AddressLink>{place.address}</AddressLink>
+          <PlaceGallery place={place} />
           <div className=''>
             <div className=''>
-              <h2>Description</h2>
+              <h2>{place.description}</h2>
             </div>
             <div className=''>
-              Check in: 14:00 <br />
-              Check out: 10:00
+              Check in: {place.checkIn} <br />
+              Check out: {place.checkOut}
             </div>
             <div className=''>
               <div className=''>
-                <h2 className=''>Extra Info</h2>
+                <h2 className=''>{place.extraInfo}</h2>
               </div>
-              <div className='mb-4 mt-2 text-sm text-gray-700 leading-5'>
+              <div className='mt-2 mb-4 text-sm leading-5 text-gray-700'>
                 Extra Info
               </div>
             </div>

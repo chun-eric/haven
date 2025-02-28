@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <div className='px-6 border-b'>
-      <header className='flex items-center justify-between w-full p-6 mx-auto max-w-7xl'>
+      <header className='flex items-center justify-between w-full max-w-6xl p-6 mx-auto mb-3'>
         {/* Logo */}
         <Link to='/' className='flex items-center gap-1'>
           <svg

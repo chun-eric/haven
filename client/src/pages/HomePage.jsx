@@ -14,11 +14,11 @@ const HomePage = () => {
   }, [])
 
   return (
-    <div className='grid grid-cols-2 gap-6 px-8 mx-auto mt-8 md:grid-cols-4 gap-y-8 max-w-7xl'>
+    <div className='grid grid-cols-2 gap-6 px-10 mx-auto mt-12 sm:grid-cols-4 md:grid-cols-3 gap-y-6 lg:grid-cols-6'>
       {places.length > 0 &&
         places.map(place => (
           <Link
-            to={`/place/${place._id}`}
+            to={`/places/${place._id}`}
             key={place._id}
             className='mb-8 overflow-hidden transition rounded-2xl'
           >

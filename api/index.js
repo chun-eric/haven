@@ -37,7 +37,6 @@ app.post('/register', async (req, res) => {
   mongoose.connect(process.env.MONGO_URL)
   // destructing the request body data
   const { name, email, password } = req.body // This works because of express.json()
-
   // creating a new user collection
   try {
     // attemp to create a new user document
@@ -61,7 +60,6 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   mongoose.connect(process.env.MONGO_URL)
   const { email, password } = req.body
-
   try {
     // attempt to find user
     const userDocument = await User.findOne({ email })
@@ -135,7 +133,7 @@ app.post('/upload-by-link', async (req, res) => {
   res.json(newName)
 })
 
-// image upload endpoint using multer middleware
+// image upload endpoint with multer middleware
 const photosMiddleware = multer({ dest: 'uploads/' }) // 1. Multer middleware intercepts the request
 app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
   // 2. Files are saved to 'uploads/' directory by multer

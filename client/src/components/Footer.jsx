@@ -10,7 +10,7 @@ const Footer = () => {
         { name: 'HavenCover for Guests', href: '#' },
         { name: 'Disability support', href: '#' },
         { name: 'Cancellation options', href: '#' },
-        { name: 'Report neighborhood concern', href: '#' }
+        { name: 'Neighborhood concern', href: '#' }
       ]
     },
     {
@@ -19,8 +19,8 @@ const Footer = () => {
         { name: 'Haven your home', href: '#' },
         { name: 'HavenCover for Hosts', href: '#' },
         { name: 'Hosting resources', href: '#' },
-        { name: 'Community forum', href: '#' },
-        { name: 'Hosting responsibly', href: '#' }
+        { name: 'Hosting responsibly', href: '#' },
+        { name: 'Community forum', href: '#' }
       ]
     },
     {
@@ -29,15 +29,14 @@ const Footer = () => {
         { name: 'Newsroom', href: '#' },
         { name: 'New features', href: '#' },
         { name: 'Careers', href: '#' },
-        { name: 'Investors', href: '#' },
-        { name: 'Haven.org emergency stays', href: '#' }
+        { name: 'Investors', href: '#' }
       ]
     }
   ]
 
   return (
     <footer className='bg-[#F7F7F7] mt-10 py-10  px-4 border-t border '>
-      <div className='w-full mx-auto max-w-7xl'>
+      <div className='w-full max-w-6xl mx-auto'>
         <div className='mx-auto mx-w-7xl sm:px-6 lg:px-8 bg-[#F7F7F7]'>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
             {footerSections.map((section, index) => (
@@ -47,11 +46,8 @@ const Footer = () => {
                 </h2>
                 <ul className='space-y-6'>
                   {section.links.map((link, linkIndex) => (
-                    <Link to={link.href}>
-                      <li
-                        key={linkIndex}
-                        className='mb-3 space-x-4 text-gray-500 transition duration-150 font-base hover:text-gray-900 hover:underline'
-                      >
+                    <Link to={link.href} key={linkIndex}>
+                      <li className='mb-3 space-x-4 text-gray-500 transition duration-150 font-base hover:text-gray-900 hover:underline'>
                         {link.name}
                       </li>
                     </Link>
