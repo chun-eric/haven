@@ -247,7 +247,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Search Button */}
+      {/* Mobile Search Button shows from medium and below but hidden from large screens */}
       <div className='flex px-4 pb-4 lg:hidden'>
         <button
           onClick={() => setIsSearchExpanded(true)}

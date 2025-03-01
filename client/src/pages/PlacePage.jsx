@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AddressLink from '../components/AddressLink'
 import PlaceGallery from '../components/PlaceGallery'
+import BookingWidget from '../components/BookingWidget'
 
 export default function PlacePage () {
   const { id } = useParams()
@@ -25,7 +26,7 @@ export default function PlacePage () {
 
   return (
     <>
-      <div className='w-full px-4 sm:px-8 mt-4 bg-[#ffffff] max-w-6xl mx-auto relative'>
+      <div className='w-full px-4 sm:px-8 mt-4 bg-[#ffffff] max-w-7xl mx-auto relative'>
         <div className='px-8 pt-8 mt-4 -mx-8 bg-white-100 '>
           <h1 className='mb-2 text-3xl'>{place.title}</h1>
           <AddressLink>{place.address}</AddressLink>
@@ -76,6 +77,9 @@ export default function PlacePage () {
                   </svg>
                 </button>
               </div>
+
+              {/* Booking */}
+              <BookingWidget place={place} />
             </div>
           </div>
         </div>
