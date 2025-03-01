@@ -14,7 +14,7 @@ const HomePage = () => {
   }, [])
 
   return (
-    <div className='grid grid-cols-2 gap-6 px-10 mx-auto mt-12 sm:grid-cols-4 md:grid-cols-3 gap-y-6 lg:grid-cols-6'>
+    <div className='grid grid-cols-2 gap-6 px-10 mx-auto mt-12 sm:grid-cols-4 md:grid-cols-3 gap-y-6 lg:grid-cols-5 max-w-7xl'>
       {places.length > 0 &&
         places.map(place => (
           <Link

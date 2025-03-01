@@ -36,7 +36,7 @@ const Footer = () => {
 
   return (
     <footer className='bg-[#F7F7F7] mt-10 py-10  px-4 border-t border '>
-      <div className='w-full max-w-6xl mx-auto'>
+      <div className='w-full mx-auto max-w-7xl'>
         <div className='mx-auto mx-w-7xl sm:px-6 lg:px-8 bg-[#F7F7F7]'>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
             {footerSections.map((section, index) => (
