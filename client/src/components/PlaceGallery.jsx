@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Image from './Images'
-import ImageSlider from './ImageSlider'
+import ImageSliderBig from './ImageSliderBig'
 
 // function takes in one place
 export default function PlaceGallery ({ place }) {
@@ -36,13 +36,21 @@ export default function PlaceGallery ({ place }) {
           {/* render all the photos */}
           {place?.photos?.length > 0 &&
             place.photos?.map((photo, i) => (
-              <div className='w-30 h-30'>
-                <ImageSlider photos={photo} title={place.title} />
+              <div className='w-30 h-30' key={i}>
+                <ImageSliderBig
+                  photos={place.photos}
+                  title={place.title}
+                  onClose={() => setShowPhotos(false)}
+                />
               </div>
             ))}
         </div>
       </div>
     )
+  }
+
+  function handleClosePhotos () {
+    setShowPhotos(false)
   }
 
   return (

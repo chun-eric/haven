@@ -268,3 +268,16 @@ Day 10
 - Complete responsive header
 - Creating a booking widget
 - Fix the image slider 
+
+
+Day 11
+-  Fix the booking widget dropdown. Put the custom dropdown into a separate component. 
+-   Fix image slider big when clicking on Show all photos
+Issues left
+-  The booking widget component issues left:
+-  Fix calendar format
+-  Fix calendar to appear on Click
+-  Fix Price to show
+-  Automatically add checkin and checkout date based on minimum price.
+-  Close button not working
+  
