@@ -6,11 +6,14 @@ import AddressLink from '../components/AddressLink'
 import PlaceGallery from '../components/PlaceGallery'
 import BookingWidget from '../components/BookingWidget'
 import PerkIcon from '../components/PerkIcon'
+import ImageSliderBig from '../components/ImageSliderBig'
 
 export default function PlacePage () {
   const { id } = useParams()
   const [place, setPlace] = useState(null)
   const [showExtraInfo, setShowExtraInfo] = useState(false)
+  const [showAllPhotos, setShowAllPhotos] = useState(false)
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0)
 
   // useEffect to grab the place by id
   useEffect(() => {
@@ -25,13 +28,26 @@ export default function PlacePage () {
   // if there is no place, return null
   if (!place) return ''
 
+  function closeAllPhotos () {
+    setShowAllPhotos(false)
+  }
+
   return (
     <>
       <div className='w-full px-4 sm:px-8 mt-4 bg-[#ffffff] max-w-7xl mx-auto relative'>
         <div className='px-8 pt-8 mt-4 -mx-8 bg-white-100'>
           <h1 className='mb-2 text-3xl'>{place.title}</h1>
           <AddressLink>{place.address}</AddressLink>
-          <PlaceGallery place={place} />
+          <PlaceGallery
+            place={place}
+            onShowAllPhotos={index => {
+              setSelectedPhotoIndex(index)
+              // Small timeout to ensure index is updated before showing slider
+              setTimeout(() => {
+                setShowAllPhotos(true)
+              }, 0)
+            }}
+          />
           <div className='flex flex-col justify-between gap-6 lg:flex-row'>
             <div className='lg:w-[55%]'>
               <div className='my-6'>
@@ -108,8 +124,17 @@ export default function PlacePage () {
           </div>
         </div>
       </div>
+      {/* Show all Photos  */}
+      {showAllPhotos && place?.photos && (
+        <ImageSliderBig
+          photos={place.photos}
+          onClose={closeAllPhotos}
+          title={place.title}
+          initialIndex={selectedPhotoIndex}
+        />
+      )}
 
-      {/* Show modal  */}
+      {/* Show modal Information  */}
       {showExtraInfo && (
         <div
           className='fixed inset-0 z-50 flex items-start justify-center bg-black pt-36 bg-opacity-60 sm:pt-36 md:pt-40'

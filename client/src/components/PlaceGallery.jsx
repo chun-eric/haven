@@ -3,9 +3,30 @@ import Image from './Images'
 import ImageSliderBig from './ImageSliderBig'
 
 // function takes in one place
-export default function PlaceGallery ({ place }) {
+export default function PlaceGallery ({ place, onShowAllPhotos }) {
   const [showPhotos, setShowPhotos] = useState(false) // state to show photos or not
+  const [selectedIndex, setSelectedIndex] = useState(0) // track which photo to start with
 
+  // function to handle showing the full screen slider
+  // handle two scenarios 1. from Placepage 2. button from show all photos
+  const handleShowPhotos = (index = 0) => {
+    setSelectedIndex(index)
+
+    // Use parent function if available, otherwise use local state
+    if (typeof onShowAllPhotos === 'function') {
+      onShowAllPhotos(index) // pass index to parent
+    } else {
+      // if no parent function was passed in, show the photos directly
+      setShowPhotos(true)
+    }
+  }
+
+  // handle closing the full screen slider
+  function handleClosePhotos () {
+    setShowPhotos(false)
+  }
+
+  // photos are already shown and not using parent control
   if (showPhotos) {
     return (
       <div className='absolute inset-0 min-h-screen text-white transition duration-100 ease-in bg-black'>
@@ -14,9 +35,7 @@ export default function PlaceGallery ({ place }) {
             <h2 className='mr-48 text-2xl'>Photos of {place.title}</h2>
             <button
               className='fixed flex gap-1 px-4 py-2 text-black bg-white shadow right-12 top-8 rounded-2xl shadow-black'
-              onClick={() => {
-                setShowPhotos(false)
-              }}
+              onClick={handleClosePhotos}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -34,23 +53,18 @@ export default function PlaceGallery ({ place }) {
             </button>
           </div>
           {/* render all the photos */}
-          {place?.photos?.length > 0 &&
-            place.photos?.map((photo, i) => (
-              <div className='w-30 h-30' key={i}>
-                <ImageSliderBig
-                  photos={place.photos}
-                  title={place.title}
-                  onClose={() => setShowPhotos(false)}
-                />
-              </div>
-            ))}
+          {/* no need to map */}
+          {showPhotos && place?.photos?.length > 0 && (
+            <ImageSliderBig
+              photos={place.photos}
+              title={place.title}
+              onClose={handleClosePhotos}
+              initialIndex={selectedIndex}
+            />
+          )}
         </div>
       </div>
     )
-  }
-
-  function handleClosePhotos () {
-    setShowPhotos(false)
   }
 
   return (
@@ -62,7 +76,7 @@ export default function PlaceGallery ({ place }) {
             {place.photos?.[0] && (
               <div className='relative h-full group'>
                 <Image
-                  onClick={() => setShowPhotos(true)}
+                  onClick={() => handleShowPhotos(0)}
                   className='object-cover w-full h-full cursor-pointer '
                   src={place.photos[0]}
                 />
@@ -76,7 +90,7 @@ export default function PlaceGallery ({ place }) {
               {place.photos?.[1] && (
                 <>
                   <Image
-                    onClick={() => setShowPhotos(true)}
+                    onClick={() => handleShowPhotos(1)}
                     className='object-cover w-full h-full cursor-pointer '
                     src={place.photos[1]}
                   ></Image>
@@ -89,7 +103,7 @@ export default function PlaceGallery ({ place }) {
               {place.photos?.[2] && (
                 <>
                   <Image
-                    onClick={() => setShowPhotos(true)}
+                    onClick={() => handleShowPhotos(2)}
                     className='object-cover w-full h-full cursor-pointer '
                     src={place.photos[2]}
                   ></Image>
@@ -101,7 +115,7 @@ export default function PlaceGallery ({ place }) {
               {place.photos?.[3] && (
                 <>
                   <Image
-                    onClick={() => setShowPhotos(true)}
+                    onClick={() => handleShowPhotos(3)}
                     className='object-cover w-full h-full cursor-pointer '
                     src={place.photos[3]}
                   ></Image>
@@ -113,13 +127,13 @@ export default function PlaceGallery ({ place }) {
               {place.photos?.[4] && (
                 <>
                   <Image
-                    onClick={() => setShowPhotos(true)}
+                    onClick={() => handleShowPhotos(4)}
                     className='object-cover w-full h-full cursor-pointer '
                     src={place.photos[4]}
                   ></Image>
                   <div className='absolute inset-0 transition-opacity duration-200 ease-in-out bg-black opacity-0 cursor-pointer group-hover:opacity-30'></div>
                   <button
-                    onClick={() => setShowPhotos(true)}
+                    onClick={() => handleShowPhotos(0)}
                     className='absolute px-3 py-1 text-sm bg-gray-200 bottom-4 right-4 rounded-xl'
                   >
                     Show all photos

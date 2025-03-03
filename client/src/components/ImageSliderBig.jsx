@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-const ImageSliderBig = ({ photos, title, onClose }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+const ImageSliderBig = ({ photos, title, onClose, initialIndex = 0 }) => {
+  console.log('ImageSliderBig - Received initialIndex:', initialIndex)
+
+  const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const [loaded, setLoaded] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
   const [nextIndex, setNextIndex] = useState(null)
   const firstPhoto = currentIndex === 0
   const lastPhoto = currentIndex === photos.length - 1
+
+  // Track if it's the first render
+  const isFirstRender = useRef(true)
 
   // if no photos exisits or photos is undefined
   if (!photos || photos.length === 0) {
@@ -41,13 +46,6 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
     changeSlide(newIndex)
   }
 
-  // go to slide function
-  function goToSlide (index, e) {
-    e.preventDefault()
-    e.stopPropagation()
-    setCurrentIndex(index) // set currentIndex to the index
-  }
-
   // Preload images to see the images before sliding is used
   useEffect(() => {
     if (!photos || photos.length === 0) return
@@ -61,12 +59,37 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
     setLoaded(true)
   }, [photos])
 
-  function onClose () {
-    e.preventDefault()
-    e.stopPropagation()
-    if (onClose) onClose()
+  // handle closing the full screen slider
+  function handleClose () {
+    if (typeof onClose === 'function') {
+      onClose()
+    }
   }
 
+  // Add this useEffect to handle initialIndex changes
+  useEffect(() => {
+    setCurrentIndex(initialIndex)
+  }, [initialIndex])
+
+  // Log when component mounts
+  useEffect(() => {
+    console.log('ImageSliderBig mounted with initialIndex:', initialIndex)
+    console.log('Current index set to:', currentIndex)
+
+    // Explicitly set the current index on mount
+    if (isFirstRender.current) {
+      setCurrentIndex(initialIndex)
+      isFirstRender.current = false
+    }
+
+    // Cleanup
+    return () => {
+      console.log('ImageSliderBig unmounting')
+      isFirstRender.current = true
+    }
+  }, [])
+
+  
   return (
     <>
       <div className='fixed inset-0 z-50 flex flex-col w-full bg-black'>
@@ -75,8 +98,8 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
           {/* close button */}
           <div className='flex items-center '>
             <button
-              onClick={onClose}
-              className='flex items-center justify-center gap-2 p-2 text-white rounded-full cursor-pointer '
+              onClick={handleClose}
+              className='flex items-center justify-center gap-2 p-3 text-white rounded-lg cursor-pointer hover:bg-gray-700 '
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -97,8 +120,8 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
           </div>
 
           {/* image counter */}
-          <div className='font-semibold text-center'>
-            {currentIndex + 1 + '/' + photos.length}
+          <div className='font-semibold leading-3 text-center'>
+            {currentIndex + 1 + ' ' + '/' + ' ' + photos.length}
           </div>
 
           {/* Share and like buttons */}
@@ -143,7 +166,7 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
         <div className='relative flex items-center justify-center flex-grow'>
           {' '}
           {/* Image Container */}
-          <div className='relative w-full h-full max-w-6xl px-10 mx-auto'>
+          <div className='relative w-full h-full max-w-6xl px-10 mx-auto ml-4 mr-4'>
             <div className='relative w-full h-full max-w-6xl px-10 mx-auto'>
               <div
                 className={`w-full h-full transition-opacity duration-200 ease-in ${
@@ -163,7 +186,7 @@ const ImageSliderBig = ({ photos, title, onClose }) => {
           {/* Arrows */}
           {photos.length > 1 && (
             <>
-              <div className='px-4'>
+              <div className=''>
                 {!firstPhoto && (
                   <button
                     onClick={goToPrevious}
